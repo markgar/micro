@@ -33,4 +33,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: micro-cart # Replace with your app name
-        package: './cart' 
+        package: './src/cart/cart' 
