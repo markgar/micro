@@ -12,14 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+        dotnet-version: 3.1.302
+    
+    # dotnet build and publish
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      working-directory: ./src/catalog
+    - name: dotnet publish
+      run: |
+        dotnet publish -c Release -o cart
+      working-directory: ./src/catalog
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: micro-catalog # Replace with your app name
+        package: './src/catalog/catalog' 
