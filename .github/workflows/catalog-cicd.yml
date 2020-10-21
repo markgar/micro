@@ -24,7 +24,7 @@ jobs:
       working-directory: ./src/catalog
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -o cart
+        dotnet publish -c Release -o catalog
       working-directory: ./src/catalog
     - uses: azure/login@v1
       with:
