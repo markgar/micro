@@ -33,5 +33,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: cart # Replace with your app name
-        publish-profile: $ # Define secret variable in repository settings as per action documentation
         package: './cart' 
