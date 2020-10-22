@@ -3,8 +3,14 @@ name: catalog-cicd
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'src/catalog/**'
+    - '.github/workflows/catalog-cicd.yml'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'src/catalog/**'
+    - '.github/workflows/catalog-cicd.yml'
 
 jobs:
   build:
