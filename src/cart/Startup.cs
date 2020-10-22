@@ -29,6 +29,8 @@ namespace cart
             services.AddControllers();
 
             services.AddSingleton<ICartCRUDService>(InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +42,17 @@ namespace cart
             }
 
             app.UseHttpsRedirection();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 
@@ -57,10 +70,10 @@ namespace cart
             string containerName = configurationSection.GetSection("ContainerName").Value;
             string account = configurationSection.GetSection("Account").Value;
             string key = configurationSection.GetSection("Key").Value;
-            
+
             Microsoft.Azure.Cosmos.CosmosClient client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
             CartCRUDService cosmosDbService = new CartCRUDService(client, databaseName, containerName);
-            
+
             Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
             await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
