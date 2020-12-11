@@ -27,7 +27,7 @@ resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2020-04-01' = {
   location: resourceGroup().location
   name: 'micro-cosmos-${unqStr}'
-  properties:{
+  properties: {
     databaseAccountOfferType: 'Standard'
     locations: [
       {
@@ -44,5 +44,15 @@ resource appInsights 'Microsoft.Insights/components@2015-05-01' = {
   properties: {
     Application_Type: 'web'
     RetentionInDays: 90
+  }
+}
+
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
+  location: resourceGroup().location
+  name: 'micro-loga-${unqStr}'
+  properties: {
+    sku: {
+      name: 'PerGB2018'
+    }
   }
 }
