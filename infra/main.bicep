@@ -36,3 +36,13 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2020-04-01' = {
     ]
   }
 }
+
+resource appInsights 'Microsoft.Insights/components@2015-05-01' = {
+  kind: 'web'
+  name: 'micro-appinsights-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    Application_Type: 'web'
+    RetentionInDays: 90
+  }
+}
