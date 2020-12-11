@@ -41,12 +41,12 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Emit template what-if
-      - name: Run what-if
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az account show
-            az deployment group what-if -g micro-a -f ./infra/main.json
+      # - name: Run what-if
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+      #       az account show
+      #       az deployment group what-if -g micro-a -f ./infra/main.json
 
       # Deploy template
       - name: Deploy template
