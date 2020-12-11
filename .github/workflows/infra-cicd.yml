@@ -1,4 +1,4 @@
-name: bicep build and deploy
+name: infra-cicd
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       # Transpile bicep file into ARM template
       - name: Build ARM Template from bicep file
         run: |
-          bicep build ./main.bicep
+          bicep build ./infra/main.bicep
       - name: Azure Login
         uses: azure/login@v1
         with:
