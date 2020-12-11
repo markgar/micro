@@ -47,12 +47,11 @@ jobs:
           inlineScript: |
             az account show
             az deployment group what-if -g micro-a -f ./infra/main.json
-      # --- UNCOMMENT TO DEPLOY --- 
 
       # Deploy template
-      # - name: Deploy template
-      #   uses: azure/CLI@v1
-      #   with:
-      #     inlineScript: |
-      #       # az account show
-      #       # az deployment sub create -f ./main.json -l eastus
+      - name: Deploy template
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az account show
+            az deployment group create -f ./infra/main.json -g micro-a
