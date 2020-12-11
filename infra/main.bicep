@@ -23,3 +23,16 @@ resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
     serverFarmId: asp.id
   }
 }
+
+resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2020-04-01' = {
+  location: resourceGroup().location
+  name: 'micro-cosmos-${unqStr}'
+  properties:{
+    databaseAccountOfferType: 'Standard'
+    locations: [
+      {
+        locationName: 'East Us'
+      }
+    ]
+  }
+}
