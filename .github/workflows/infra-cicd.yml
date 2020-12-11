@@ -1,36 +1,57 @@
-# This is a basic workflow to help you get started with Actions
+name: bicep build and deploy
 
-name: CI
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
+    paths:
+    - 'infra/**'
+    - '.github/workflows/infra-cicd.yml'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'infra/**'
+    - '.github/workflows/infra-cicd.yml'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  bicep-build-and-deploy:
+    name: bicep build and deploy
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # Install the latest release of the bicep CLI
+      - name: Install bicep CLI
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x ./bicep
+          sudo mv ./bicep /usr/local/bin/bicep
+          bicep --help
+           
+      # Transpile bicep file into ARM template
+      - name: Build ARM Template from bicep file
+        run: |
+          bicep build ./main.bicep
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Emit template what-if
+      - name: Run what-if
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az account show
+            az deployment sub what-if -f ./main.json -l eastus
+      # --- UNCOMMENT TO DEPLOY --- 
+
+      # Deploy template
+      # - name: Deploy template
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+      #       # az account show
+      #       # az deployment sub create -f ./main.json -l eastus
