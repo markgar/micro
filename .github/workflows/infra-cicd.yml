@@ -46,7 +46,7 @@ jobs:
       #   with:
       #     inlineScript: |
       #       az account show
-      #       az deployment group what-if -g micro-a -f ./infra/main.json
+      #       az deployment group what-if -g micro-a -f ./infra/main.json --mode complete
 
       # Deploy template
       - name: Deploy template
