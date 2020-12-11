@@ -34,6 +34,7 @@ jobs:
       - name: Build ARM Template from bicep file
         run: |
           bicep build ./infra/main.bicep
+      
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -45,7 +46,7 @@ jobs:
         with:
           inlineScript: |
             az account show
-            az deployment sub what-if -f ./main.json -l eastus
+            az deployment group what-if -g micro-a -f ./infra/main.json
       # --- UNCOMMENT TO DEPLOY --- 
 
       # Deploy template
