@@ -54,4 +54,4 @@ jobs:
         with:
           inlineScript: |
             az account show
-            az deployment group create -f ./infra/main.json -g micro-a
+            az deployment group create -f ./infra/main.json -g micro-a --mode complete
