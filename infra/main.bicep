@@ -10,7 +10,15 @@ resource asp 'Microsoft.Web/serverfarms@2020-06-01' = {
 
 resource catalogWeb 'Microsoft.Web/sites@2020-06-01' = {
   location: resourceGroup().location
-  name: 'micro-web-${unqStr}'
+  name: 'micro-catalog-web-${unqStr}'
+  properties: {
+    serverFarmId: asp.id
+  }
+}
+
+resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
+  location: resourceGroup().location
+  name: 'micro-cart-web-${unqStr}'
   properties: {
     serverFarmId: asp.id
   }
