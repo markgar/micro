@@ -17,7 +17,7 @@ resource catalogWeb 'Microsoft.Web/sites@2020-06-01' = {
       appSettings: [
         {
           name: 'ConnectionStrings:AppConfig'
-          value: '${configSvcs.properties.privateEndpointConnections[0]}'
+          value: ''
         }
       ]
     }
