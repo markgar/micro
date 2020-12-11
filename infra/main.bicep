@@ -56,3 +56,11 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
     }
   }
 }
+
+resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' = {
+  location: resourceGroup().location
+  name: 'micro-appcfg-${unqStr}'
+  sku: {
+    name: 'standard'
+  }
+}
