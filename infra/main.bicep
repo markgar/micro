@@ -13,6 +13,14 @@ resource catalogWeb 'Microsoft.Web/sites@2020-06-01' = {
   name: 'micro-catalog-web-${unqStr}'
   properties: {
     serverFarmId: asp.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'ConnectionStrings:AppConfig'
+          value: '${configSvcs.properties.privateEndpointConnections[0]}'
+        }
+      ]
+    }
   }
 }
 
