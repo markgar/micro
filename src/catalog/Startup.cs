@@ -24,6 +24,7 @@ namespace catalog
         {
             services.AddControllers();
 
+            services.AddApplicationInsightsTelemetry();
             services.AddSingleton<ICatalogItemCRUDService>(InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
             services.AddSwaggerGen();

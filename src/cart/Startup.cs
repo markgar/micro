@@ -28,6 +28,8 @@ namespace cart
         {
             services.AddControllers();
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddSingleton<ICartCRUDService>(InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
             services.AddSwaggerGen();
