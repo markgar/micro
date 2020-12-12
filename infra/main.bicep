@@ -29,6 +29,14 @@ resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
   name: 'micro-cart-web-${unqStr}'
   properties: {
     serverFarmId: asp.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'ConnectionStrings:AppConfig'
+          value: ''
+        }
+      ]
+    }
   }
 }
 
