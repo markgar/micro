@@ -30,8 +30,7 @@ jobs:
       working-directory: ./src/cart
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -o cart
-      working-directory: ./src/cart
+        dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/cart'       working-directory: ./src/cart
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -39,4 +38,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: micro-cart-web-2tg # Replace with your app name
-        package: './src/cart/cart' 
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/cart' 
