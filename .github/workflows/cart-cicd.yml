@@ -29,7 +29,7 @@ jobs:
       run: |
         dotnet restore
         dotnet build --configuration Release
-        dotnet publish -c Release -o '/packages/cart'       
+        dotnet publish -c Release -o './packages/cart'       
       working-directory: ./src/cart
     - uses: azure/login@v1
       with:
@@ -38,5 +38,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: micro-cart-web-2tg # Replace with your app name
-        package: '/packages/cart' 
+        package: './packages/cart' 
 
