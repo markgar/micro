@@ -25,11 +25,10 @@ jobs:
         dotnet-version: 3.1.302
     
     # dotnet build and publish
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
-      working-directory: ./src/cart
     - name: dotnet publish
       run: |
+        dotnet restore
+        dotnet build --configuration Release
         dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/cart'       working-directory: ./src/cart
     - uses: azure/login@v1
       with:
