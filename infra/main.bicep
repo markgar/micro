@@ -60,6 +60,7 @@ resource appInsights 'Microsoft.Insights/components@2015-05-01' = {
   properties: {
     Application_Type: 'web'
     RetentionInDays: 90
+    
   }
 }
 

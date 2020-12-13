@@ -38,5 +38,5 @@ jobs:
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: micro-cart # Replace with your app name
+        app-name: micro-cart-web-2tg # Replace with your app name
         package: './src/cart/cart' 

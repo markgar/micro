@@ -1,0 +1,3 @@
+add the key/value in config servie (missing object in bicep)
+add the config service connection string as the value in app settings (list keys)
+change app insights to use LA
