@@ -1,7 +1,5 @@
 name: infra-cicd
 
-environment: dev
-
 on:
   push:
     branches: [ main ]
@@ -18,7 +16,8 @@ jobs:
   bicep-build-and-deploy:
     name: bicep build and deploy
     runs-on: ubuntu-latest
-
+    environment: dev
+    
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
