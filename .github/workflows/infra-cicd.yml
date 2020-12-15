@@ -74,7 +74,7 @@ jobs:
         with:
           inlineScript: |
             az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value ${{ steps.deploy.outputs.catalogItemServiceUrl }} -y
-            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value redt -y
+            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value ${{ steps.deploy.outputs.cosmosAccountEndpoint }} -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value redt -y
 

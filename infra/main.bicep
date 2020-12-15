@@ -83,3 +83,4 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
 }
 
 output catalogItemServiceUrl string = catalogWeb.properties.defaultHostName
+output cosmosAccountEndpoint string = cosmos.properties.documentEndpoint
