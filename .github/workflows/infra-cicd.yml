@@ -54,4 +54,18 @@ jobs:
         with:
           inlineScript: |
             az account show
-            az deployment group create -f ./infra/main.json -g micro-a --mode complete --name $GITHUB_RUN_ID
+            az deployment group create -f ./infra/main.json -g micro-a --mode complete --name "${GITHUB_WORKFLOW} ${GITHUB_RUN_ID}"
+
+      # Deploy template
+      - name: Configure
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value https://micro-catalog-web-2tg.azurewebsites.net
+            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value redt
+            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro
+            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value redt
+
+            az webapp config appsettings set -g micro-a -n micro-catalog --settings ConnectionStrings:AppConfig=6.9.1
+
+            az webapp config appsettings set -g micro-a -n micro-cart --settings ConnectionStrings:AppConfig=6.9.1
