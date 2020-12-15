@@ -52,12 +52,13 @@ jobs:
       #       az deployment group what-if -g micro-a -f ./infra/main.json --mode complete
 
       # Deploy template
-      - uses: azure/arm-deploy@v1
+      - name: Deploy template
+        uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: micro-a
           template: ./infra/main.json
-          deploymentName: ${GITHUB_RUN_ID}
+          deploymentName: ${{ GITHUB_RUN_ID }}
           deploymentMode: Complete
 
       # - name: Deploy template
