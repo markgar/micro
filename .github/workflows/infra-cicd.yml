@@ -66,6 +66,6 @@ jobs:
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value redt -y
 
-            az webapp config appsettings set -g micro-a -n micro-catalog --settings ConnectionStrings:AppConfig=6.9.1
+            az webapp config appsettings set -g micro-a -n micro-catalog-web-2tg --settings ConnectionStrings:AppConfig=6.9.1
 
-            az webapp config appsettings set -g micro-a -n micro-cart --settings ConnectionStrings:AppConfig=6.9.1
+            az webapp config appsettings set -g micro-a -n micro-cart-web-2tg --settings ConnectionStrings:AppConfig=6.9.1
