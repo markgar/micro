@@ -81,3 +81,5 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
     name: 'standard'
   }
 }
+
+output catalogItemServiceUrl string = catalogWeb.properties.defaultHostName

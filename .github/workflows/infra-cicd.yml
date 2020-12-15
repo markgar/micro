@@ -24,6 +24,7 @@ jobs:
 
       # Install the latest release of the bicep CLI
       - name: Install bicep CLI
+        id: installbicep
         run: |
           curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x ./bicep
@@ -32,10 +33,12 @@ jobs:
            
       # Transpile bicep file into ARM template
       - name: Build ARM Template from bicep file
+        id: bicepbuild
         run: |
           bicep build ./infra/main.bicep
       
       - name: Azure Login
+        id: login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -49,19 +52,29 @@ jobs:
       #       az deployment group what-if -g micro-a -f ./infra/main.json --mode complete
 
       # Deploy template
-      - name: Deploy template
-        uses: azure/CLI@v1
+      - uses: azure/arm-deploy@v1
         with:
-          inlineScript: |
-            az account show
-            az deployment group create -f ./infra/main.json -g micro-a --mode complete --name "${GITHUB_WORKFLOW}-${GITHUB_RUN_ID}"
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: micro-a
+          template: ./infra/main.json
+          deploymentName: "${GITHUB_WORKFLOW}-${GITHUB_RUN_ID}"
+          deploymentMode: Complete
+
+      # - name: Deploy template
+      #   id: deploy
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+      #       az account show
+      #       az deployment group create -f ./infra/main.json -g micro-a --mode complete --name "${GITHUB_WORKFLOW}-${GITHUB_RUN_ID}"
 
       # Deploy template
       - name: Configure
+        id: configure
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value https://micro-catalog-web-2tg.azurewebsites.net -y
+            az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value ${{ steps.deploy.outputs.catalogItemServiceUrl }} -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value redt -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro -y
             az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value redt -y
