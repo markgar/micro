@@ -1,5 +1,7 @@
 name: infra-cicd
 
+environment: dev
+
 on:
   push:
     branches: [ main ]
