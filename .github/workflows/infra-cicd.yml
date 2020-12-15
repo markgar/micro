@@ -54,7 +54,7 @@ jobs:
         with:
           inlineScript: |
             az account show
-            az deployment group create -f ./infra/main.json -g micro-a --mode complete --name "${GITHUB_WORKFLOW} ${GITHUB_RUN_ID}"
+            az deployment group create -f ./infra/main.json -g micro-a --mode complete --name "${GITHUB_WORKFLOW}-${GITHUB_RUN_ID}"
 
       # Deploy template
       - name: Configure
