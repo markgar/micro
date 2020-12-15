@@ -58,7 +58,7 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: micro-a
           template: ./infra/main.json
-          deploymentName: ${{ GITHUB_RUN_ID }}
+          deploymentName: ${{ env.GITHUB_RUN_ID }}
           deploymentMode: Complete
 
       # - name: Deploy template
