@@ -17,7 +17,7 @@ jobs:
     name: bicep build and deploy
     runs-on: ubuntu-latest
     environment: dev
-    
+
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
@@ -77,3 +77,5 @@ jobs:
             az webapp config appsettings set -g micro-a -n micro-catalog-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
 
             az webapp config appsettings set -g micro-a -n micro-cart-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
+
+
