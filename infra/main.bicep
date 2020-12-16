@@ -1,3 +1,11 @@
+param adminUserName string {
+  secure: true
+}
+
+param adminPassword string {
+  secure: true
+}
+
 var unqStr = substring(uniqueString(resourceGroup().id), 0, 3)
 
 resource asp 'Microsoft.Web/serverfarms@2020-06-01' = {
@@ -117,14 +125,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         '10.0.0.0/16'
       ]
     }
-    subnets: [
-      {
-        name: 'subnet1'
-        properties: {
-          addressPrefix: '10.0.0.0/24'
-        }
-      }
-    ]
   }
 }
 
@@ -135,7 +135,7 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
   }
 }
 
-resource pip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
+resource catalogVmPip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   name: 'micro-pip-${unqStr}'
   location: resourceGroup().location
   properties: {
@@ -143,7 +143,7 @@ resource pip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   }
 }
 
-resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
+resource catalogVmNic 'Microsoft.Network/networkInterfaces@2020-06-01' = {
   name: 'micro-nic-${unqStr}'
   location: resourceGroup().location
 
@@ -154,7 +154,7 @@ resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
         properties: {
           privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
-            id: pip.id
+            id: catalogVmPip.id
           }
           subnet: {
             id: '${subnet.id}'
@@ -162,5 +162,45 @@ resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
         }
       }
     ]
+  }
+}
+
+resource catalogVm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
+  name: 'cart-vm-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    hardwareProfile: {
+      vmSize: 'Standard_D2s_v3'
+    }
+    osProfile: {
+      computerName: 'cart-vm-${unqStr}'
+      adminUsername: adminUserName
+      adminPassword: adminPassword
+    }
+    storageProfile: {
+      imageReference: {
+        publisher: 'MicrosoftWindowsServer'
+        offer: 'WindowsServer'
+        sku: '2019-Datacenter'
+        version: 'latest'
+      }
+      osDisk: {
+        name: 'cart-vm-${unqStr}-OSDISK'
+        caching: 'ReadWrite'
+        createOption: 'FromImage'
+      }
+    }
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: catalogVmNic.id
+        }
+      ]
+    }
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        enabled: false
+      }
+    }
   }
 }
