@@ -82,5 +82,25 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
   }
 }
 
+resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
+  name: 'micro-vnet-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    addressSpace:{
+      addressPrefixes:[
+        '10.0.0.0/16'
+      ]
+    }
+    subnets: [
+      {
+        name: 'subnet1'
+        properties: {
+          addressPrefix: '10.0.0.0/24'
+        }
+      }
+    ]
+  }
+}
+
 output catalogItemServiceUrl string = catalogWeb.properties.defaultHostName
 output cosmosAccountEndpoint string = cosmos.properties.documentEndpoint
