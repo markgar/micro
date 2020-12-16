@@ -173,7 +173,7 @@ resource catalogVm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
       vmSize: 'Standard_D2s_v3'
     }
     osProfile: {
-      computerName: 'micro-catalog-vm-${unqStr}'
+      computerName: 'micro-catalog'
       adminUsername: adminUserName
       adminPassword: adminPassword
     }
