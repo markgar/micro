@@ -58,9 +58,7 @@ resource appInsights 'Microsoft.Insights/components@2015-05-01' = {
   name: 'micro-appinsights-${unqStr}'
   location: resourceGroup().location
   properties: {
-    Application_Type: 'web'
     RetentionInDays: 90
-    
   }
 }
 
@@ -124,6 +122,36 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         name: 'subnet1'
         properties: {
           addressPrefix: '10.0.0.0/24'
+        }
+      }
+    ]
+  }
+}
+
+resource pip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
+  name: 'micro-pip-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    publicIPAllocationMethod: 'Dynamic'
+  }
+}
+
+resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
+  name: 'micro-nic-${unqStr}'
+  location: resourceGroup().location
+
+  properties: {
+    ipConfigurations: [
+      {
+        name: 'ipconfig1'
+        properties: {
+          privateIPAllocationMethod: 'Dynamic'
+          publicIPAddress: {
+            id: pip.id
+          }
+          subnet: {
+            id: '${vnet.properties.subnets[0].id}'
+          }
         }
       }
     ]
