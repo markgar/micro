@@ -129,7 +129,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
 }
 
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnet.name}/subnet2'
+  name: '${vnet.name}/subnet'
   properties: {
     addressPrefix: '10.0.1.0/24'
   }
