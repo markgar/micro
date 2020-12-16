@@ -128,7 +128,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
     subnets: [
       {
         name: 'subnet'
-        properties:{
+        properties: {
           addressPrefix: '10.0.1.0/24'
         }
       }
@@ -141,6 +141,9 @@ resource catalogVmPip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   location: resourceGroup().location
   properties: {
     publicIPAllocationMethod: 'Dynamic'
+    dnsSettings: {
+      domainNameLabel: 'catalog-${unqStr}'
+    }
   }
 }
 
@@ -211,6 +214,9 @@ resource cartVmPip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   location: resourceGroup().location
   properties: {
     publicIPAllocationMethod: 'Dynamic'
+    dnsSettings: {
+      domainNameLabel: 'cart-${unqStr}'
+    }
   }
 }
 
