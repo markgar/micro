@@ -117,14 +117,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         '10.0.0.0/16'
       ]
     }
-    subnets: [
-      {
-        name: 'subnet1'
-        properties: {
-          addressPrefix: '10.0.0.0/24'
-        }
-      }
-    ]
   }
 }
 
@@ -143,7 +135,7 @@ resource pip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   }
 }
 
-resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
+resource nic 'Microsoft.Network/networkInterfaces@2020-06-01' = {
   name: 'micro-nic-${unqStr}'
   location: resourceGroup().location
 
@@ -157,7 +149,7 @@ resource nInter 'Microsoft.Network/networkInterfaces@2020-06-01' = {
             id: pip.id
           }
           subnet: {
-            id: '${vnet.properties.subnets[0].id}'
+            id: '${subnet.id}'
           }
         }
       }

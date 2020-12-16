@@ -53,7 +53,7 @@ jobs:
       #       az deployment group what-if -g micro-a -f ./infra/main.json --mode complete
 
       # Deploy template
-      - name: Deploy template
+      - name: Deploy template (complete mode)
         id: deploy
         uses: azure/arm-deploy@v1
         with:
