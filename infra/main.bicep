@@ -82,28 +82,28 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
   }
 }
 
-resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+resource configDbName 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
   name: '${configSvcs.name}/CosmosDb:DatabaseName'
   properties: {
     value: 'micro'
   }
 }
 
-resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+resource configDbKey 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
   name: '${configSvcs.name}/CosmosDb:Key'
   properties: {
     value: 'PLEASE FILL'
   }
 }
 
-resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+resource configDbAcct 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
   name: '${configSvcs.name}/CosmosDb:Account'
   properties: {
     value: '${cosmos.properties.documentEndpoint}'
   }
 }
 
-resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+resource configSvcUrl 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
   name: '${configSvcs.name}/CatalogItemServiceUrl'
   properties: {
     value: '${catalogWeb.properties.hostNames[0]}'
