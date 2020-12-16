@@ -125,13 +125,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         '10.0.0.0/16'
       ]
     }
-  }
-}
-
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnet.name}/subnet'
-  properties: {
-    addressPrefix: '10.0.1.0/24'
+    subnets: [
+      {
+        name: 'vmsubnet'
+        properties:{
+          addressPrefix: '10.0.1.0/24'
+        }
+      }
+    ]
   }
 }
 
@@ -157,7 +158,7 @@ resource catalogVmNic 'Microsoft.Network/networkInterfaces@2020-06-01' = {
             id: catalogVmPip.id
           }
           subnet: {
-            id: '${vnet.id}/subnets/${subnet.name}'
+            id: '${vnet.id}/subnets/vmsubnet'
           }
         }
       }
