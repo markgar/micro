@@ -17,7 +17,7 @@ resource catalogWeb 'Microsoft.Web/sites@2020-06-01' = {
       appSettings: [
         {
           name: 'ConnectionStrings:AppConfig'
-          value: ''
+          value: 'PLEASE_FILL'
         }
       ]
     }
@@ -33,7 +33,7 @@ resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
       appSettings: [
         {
           name: 'ConnectionStrings:AppConfig'
-          value: ''
+          value: 'PLEASE_FILL'
         }
       ]
     }
@@ -83,9 +83,30 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
 }
 
 resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
-  name: '${configSvcs.name}/foo'
+  name: '${configSvcs.name}/CosmosDb:DatabaseName'
   properties: {
-    value: 'bar'
+    value: 'micro'
+  }
+}
+
+resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+  name: '${configSvcs.name}/CosmosDb:Key'
+  properties: {
+    value: 'PLEASE FILL'
+  }
+}
+
+resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+  name: '${configSvcs.name}/CosmosDb:Account'
+  properties: {
+    value: '${cosmos.properties.documentEndpoint}'
+  }
+}
+
+resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+  name: '${configSvcs.name}/CatalogItemServiceUrl'
+  properties: {
+    value: '${catalogWeb.properties.hostNames[0]}'
   }
 }
 
@@ -108,6 +129,3 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
     ]
   }
 }
-
-output catalogItemServiceUrl string = catalogWeb.properties.defaultHostName
-output cosmosAccountEndpoint string = cosmos.properties.documentEndpoint

@@ -64,18 +64,18 @@ jobs:
           deploymentMode: Complete
 
       # Deploy template
-      - name: Configure
-        id: configure
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value ${{ steps.deploy.outputs.catalogItemServiceUrl }} -y -o none
-            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value ${{ steps.deploy.outputs.cosmosAccountEndpoint }} -y -o none
-            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro -y -o none
-            az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value PLEASE_FILL -y -o none
+      # - name: Configure
+      #   id: configure
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+      #       az appconfig kv set -n micro-appcfg-2tg --key CatalogItemServiceUrl --value ${{ steps.deploy.outputs.catalogItemServiceUrl }} -y -o none
+      #       az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Account --value ${{ steps.deploy.outputs.cosmosAccountEndpoint }} -y -o none
+      #       az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:DatabaseName --value micro -y -o none
+      #       az appconfig kv set -n micro-appcfg-2tg --key CosmosDb:Key --value PLEASE_FILL -y -o none
 
-            az webapp config appsettings set -g micro-a -n micro-catalog-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
+      #       az webapp config appsettings set -g micro-a -n micro-catalog-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
 
-            az webapp config appsettings set -g micro-a -n micro-cart-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
+      #       az webapp config appsettings set -g micro-a -n micro-cart-web-2tg --settings ConnectionStrings:AppConfig=PLEASE_FILL -o none
 
 
