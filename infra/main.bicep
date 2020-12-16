@@ -205,3 +205,73 @@ resource catalogVm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     }
   }
 }
+
+resource cartVmPip 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
+  name: 'micro-cart-pip-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    publicIPAllocationMethod: 'Dynamic'
+  }
+}
+
+resource cartVmNic 'Microsoft.Network/networkInterfaces@2020-06-01' = {
+  name: 'micro-cart-nic-${unqStr}'
+  location: resourceGroup().location
+
+  properties: {
+    ipConfigurations: [
+      {
+        name: 'ipconfig1'
+        properties: {
+          privateIPAllocationMethod: 'Dynamic'
+          publicIPAddress: {
+            id: cartVmPip.id
+          }
+          subnet: {
+            id: '${vnet.id}/subnets/subnet'
+          }
+        }
+      }
+    ]
+  }
+}
+
+resource cartVm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
+  name: 'micro-cart-vm-${unqStr}'
+  location: resourceGroup().location
+  properties: {
+    hardwareProfile: {
+      vmSize: 'Standard_D2s_v3'
+    }
+    osProfile: {
+      computerName: 'micro-cart'
+      adminUsername: adminUserName
+      adminPassword: adminPassword
+    }
+    storageProfile: {
+      imageReference: {
+        publisher: 'MicrosoftWindowsServer'
+        offer: 'WindowsServer'
+        sku: '2019-Datacenter'
+        version: 'latest'
+      }
+      osDisk: {
+        name: 'micro-cart-vm-${unqStr}-OSDISK'
+        caching: 'ReadWrite'
+        createOption: 'FromImage'
+      }
+    }
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: cartVmNic.id
+        }
+      ]
+    }
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        enabled: false
+      }
+    }
+  }
+}
