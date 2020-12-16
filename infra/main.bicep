@@ -82,6 +82,13 @@ resource configSvcs 'Microsoft.AppConfiguration/configurationStores@2020-06-01' 
   }
 }
 
+resource config 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+  name: '${configSvcs.name}/foo'
+  properties: {
+    value: 'bar'
+  }
+}
+
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
   name: 'micro-vnet-${unqStr}'
   location: resourceGroup().location
