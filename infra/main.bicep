@@ -157,7 +157,7 @@ resource catalogVmNic 'Microsoft.Network/networkInterfaces@2020-06-01' = {
             id: catalogVmPip.id
           }
           subnet: {
-            id: '${subnet.id}'
+            id: '${vnet.id}/subnets/${subnet.name}'
           }
         }
       }
