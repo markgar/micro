@@ -63,3 +63,14 @@ jobs:
           parameters: adminUserName=${{ secrets.ADMIN_USERNAME }} adminPassword=${{ secrets.ADMIN_PASSWORD }}
           deploymentName: ${{ github.WORKFLOW }}__${{ github.RUN_ID }}
           deploymentMode: Complete
+
+      # Set Keys
+      - name: Set Keys
+        id: setkeys
+        run: |
+          key=$(az cosmosdb keys list -g micro-a -n micro-cosmos-2tg --query primaryMasterKey | tr -d '"')
+          az appconfig kv set --key CosmosDb:Key --value $key --name micro-appcfg-2tg -y -o none
+
+          appConfigConnectionString=$(az appconfig credential list -n micro-appcfg-2tg -g micro-a --query "[?name=='Primary'].connectionString | [0]" | tr -d '"')
+          az webapp config appsettings set --name micro-catalog-web-2tg --resource-group micro-a --settings ConnectionStrings:AppConfig=$appConfigConnectionString -o none
+          az webapp config appsettings set --name micro-cart-web-2tg --resource-group micro-a --settings ConnectionStrings:AppConfig=$appConfigConnectionString -o none
