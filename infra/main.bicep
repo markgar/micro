@@ -6,6 +6,10 @@ param adminPassword string {
   secure: true
 }
 
+param foo object{
+  metadata
+}
+
 var unqStr = substring(uniqueString(resourceGroup().id), 0, 3)
 
 resource asp 'Microsoft.Web/serverfarms@2020-06-01' = {
@@ -67,6 +71,7 @@ resource appInsights 'Microsoft.Insights/components@2015-05-01' = {
   location: resourceGroup().location
   properties: {
     RetentionInDays: 90
+    Application_Type: 'web'
   }
 }
 
@@ -113,6 +118,13 @@ resource configSvcUrl 'Microsoft.AppConfiguration/configurationStores/keyValues@
   name: '${configSvcs.name}/CatalogItemServiceUrl'
   properties: {
     value: '${catalogWeb.properties.hostNames[0]}'
+  }
+}
+
+resource configAppInsightsKey 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+  name: '${configSvcs.name}/ApplicationInsights:InstumentationKey'
+  properties: {
+    value: '${appInsights.properties.InstrumentationKey}'
   }
 }
 
