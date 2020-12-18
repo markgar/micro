@@ -297,5 +297,6 @@ resource cartShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     dailyRecurrence: {
       time: '2200'
     }
+    timeZoneId: 'Central Standard Time'
   }
 }
