@@ -292,5 +292,6 @@ resource cartVm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
 
 resource cartShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
   name: 'micro-cart-vm-sched-${unqStr}'
+  location: resourceGroup().location
   properties: {}
 }
