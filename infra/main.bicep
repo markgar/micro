@@ -299,5 +299,6 @@ resource cartShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     }
     timeZoneId: 'Central Standard Time'
     taskType: 'ComputeVmShutdownTask'
+    targetResourceId: cartVm.id
   }
 }
