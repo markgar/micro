@@ -21,14 +21,14 @@ resource catalogWeb 'Microsoft.Web/sites@2020-06-01' = {
   name: 'micro-catalog-web-${unqStr}'
   properties: {
     serverFarmId: asp.id
-    siteConfig: {
-      appSettings: [
-        {
-          name: 'ConnectionStrings:AppConfig'
-          value: 'PLEASE_FILL'
-        }
-      ]
-    }
+    // siteConfig: {
+    //   appSettings: [
+    //     {
+    //       name: 'ConnectionStrings:AppConfig'
+    //       value: 'PLEASE_FILL'
+    //     }
+    //   ]
+    // }
   }
 }
 
@@ -37,14 +37,14 @@ resource cartWeb 'Microsoft.Web/sites@2020-06-01' = {
   name: 'micro-cart-web-${unqStr}'
   properties: {
     serverFarmId: asp.id
-    siteConfig: {
-      appSettings: [
-        {
-          name: 'ConnectionStrings:AppConfig'
-          value: 'PLEASE_FILL'
-        }
-      ]
-    }
+    // siteConfig: {
+    //   appSettings: [
+    //     {
+    //       name: 'ConnectionStrings:AppConfig'
+    //       value: 'PLEASE_FILL'
+    //     }
+    //   ]
+    // }
   }
 }
 
@@ -96,12 +96,12 @@ resource configDbName 'Microsoft.AppConfiguration/configurationStores/keyValues@
   }
 }
 
-resource configDbKey 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
-  name: '${configSvcs.name}/CosmosDb:Key'
-  properties: {
-    value: 'PLEASE FILL'
-  }
-}
+// resource configDbKey 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
+//   name: '${configSvcs.name}/CosmosDb:Key'
+//   properties: {
+//     value: 'PLEASE FILL'
+//   }
+// }
 
 resource configDbAcct 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = {
   name: '${configSvcs.name}/CosmosDb:Account'
